@@ -1,6 +1,10 @@
 console.log('welcome to the soundsystem 🎧');
 console.log('current limitations:\n- all notes are being played using the same instrument\n- no performance dynamics');
 
+
+//-----------------------------
+// play / stop procedures
+//-----------------------------
 var playState = false;
 
 $("body").click(function() {
@@ -18,7 +22,6 @@ function play(){
   Tone.Transport.schedule(function(time){
   	noteArray[0].trigger(time);
   }, 0.1);
-
   Tone.Transport.schedule(function(time){
   	noteArray[1].trigger(time);
   }, 0.4);
@@ -28,34 +31,16 @@ function play(){
 
   Tone.Transport.start('+0.1');
   setTimeout(backColorSignal, 100);
-  // triggerNote(0, 0.1);
-  // triggerNote(1, 0.6);
-  // part.start(0);
-
-  // var syntha = new Tone.Synth().toMaster();
-  // var synthb = new Tone.Synth().toMaster();
-  // syntha.triggerAttackRelease(firstNote.frequency, firstNote.duration/1000);
-  // synthb.triggerAttackRelease(secondNote.frequency, secondNote.duration/1000, 1);
-
-
 }
 
 function stop(){
   playState = false;
   $("#click").html("it is probably still flicker really bad, but it will stop eventually</br>click anywhere to keep it going");
-  console.log('stopped!');
-  // syntha.triggerRelease();
-  // synthb.triggerRelease();
+  console.log('stopping...!');
   console.log(Tone.Transport.seconds);
   Tone.Transport.stop();
   Tone.Transport.cancel(0);
-
-  // part.stop();
 }
-
-// TONE.JS
-// SYNTH
-
 
 //-----------------------------
 // creating an array of note objects (noteArray)
@@ -88,17 +73,12 @@ function noteObject(index, color, frequency, amplitude, duration, loops, connect
     if (connected !== null) {
       var nextIndex = connected[0];
       var nextTime = 0.01 + Tone.Transport.seconds + connected[1] + parseFloat((Math.random() * (connected[2] - connected[3]) + connected[3]).toFixed(4));
-
-      // console.log(nextTime);
       console.log('generated: ' + nextIndex);
       console.log('at: ' + nextTime);
       Tone.Transport.schedule(function(time){
         noteArray[nextIndex].trigger(time);
       }, nextTime);
     }
-  // this.time = time;
-  // this.minsilence = minsilence;
-  // this.maxsilence = maxsilence;
   };
 }
 
@@ -118,21 +98,6 @@ noteArray.push(new noteObject(5, 'A4FF7B', 'a2', 1, 1.800*5, 0, [6,0,0,0,1])); /
 noteArray.push(new noteObject(6, '7BFFD2', 'f#2', 0.2, 1.800*5, 0, [0, 1.800*5, 1, 2, 1]));
 // noteArray.push(new noteObject(6, '7BFFD2', 'f#2', 0.2, 1.800*5, 0, null));
 
-
-
-// creating a 'tonesj-ready' array (toneArray)
-// toneArray = [];
-//
-// for (var i=0; i<noteArray.length; i++){
-//   toneArray.push({
-//     index: noteArray[i].index,
-//     note: noteArray[i].frequency,
-//     dur: noteArray[i].duration,
-//     // time: noteArray[i].time,
-//     velocity: noteArray[i].amplitude,
-//     connected: noteArray[i].connected_notes
-//   });
-// }
 
 //-----------------------------
 // creating an array of synth objects (synthArray), based on note objects (noteArray)
@@ -186,96 +151,6 @@ for (var i=0;i<noteArray.length;i++){
   };
   synthArray.push(new Tone.DuoSynth(options).toMaster());
 }
-
-//-----------------------------
-// creating the part
-//-----------------------------
-var temp_array = [
-  { index: 0, time : 0, note : 'C4', dur : '4n', velocity:  1},
-	{ index: 1, time : 0.2, note : 'E4', dur : '8n', velocity: 1},
-	{ index: 2, time : 0.3, note : 'G4', dur : '16n', velocity: 1}
-];
-//var synth = new Tone.Synth().toMaster();
-
-//pass in an array of events
-// var part = new Tone.Part(function(time, event){
-//   if (event.time){
-//     synthArray[event.index].triggerAttackRelease(event.note, event.dur, time, event.velocity);
-//   }
-//
-//   if (event.connected !== null) {
-//     for (var i=0;i<event.connected.length;i++){
-//       // [2,1520,20,20,0.9]
-//       part.add("1m", "C#+11");
-//     }
-//   }
-// }, toneArray);
-
-//loop the part 3 times
-// part.loop = 1;
-// part.loopEnd = '1m';
-
-
-// Tone.Transport.loopEnd = '1m';
-// Tone.Transport.loop = true;
-
-function triggerNote(time){
-  console.log('triggerNote: ' + time);
-  synthArray[0].triggerAttackRelease(noteArray[0].frequency, noteArray[0].duration, time, noteArray[0].amplitude);
-	// synth.triggerAttackRelease('C2', '8n', time);
-  // for (var i=0; i<noteArray.length; i++) {
-  //   if (noteArray[i].index === index) {
-  //     synthArray[i].triggerAttackRelease(noteArray[i].frequency, noteArray[i].duration, Tone.Transport.seconds+time, noteArray[i].amplitude);
-  //   }
-  // }
-
-  // .. play the note
-  // .. check if there are connected notes
-}
-
-// Tone.Transport.schedule(triggerSynth, index, time);
-
-// receives:
-// - note index
-// - time
-function triggerNote(noteIndex, time){
-  var noteObj = {};
-
-  for (var i=0; i<noteArray.length; i++) {
-    if (noteArray[i].index === noteIndex) {
-      noteObj = noteArray[i];
-      break;
-    }
-  }
-
-  synthArray[noteObj.index].triggerAttackRelease(noteArray[noteObj.index].frequency, noteArray[noteObj.index].duration, time, noteArray[noteObj.index].amplitude);
-
-
-  // connected notes?
-  if (noteObj.connected_notes !== null) {
-    // [2,1.520,20,20,0.9]
-    nextIndex = noteObj.connected_notes[0];
-    nextTime = Tone.Transport.seconds + noteObj.connected_notes[1] + parseFloat((Math.random() * (noteObj.connected_notes[2] - noteObj.connected_notes[3]) + noteObj.connected_notes[3]).toFixed(4));
-    console.log(Tone.Transport.seconds);
-    console.log(nextTime);
-    triggerNote(nextIndex, nextTime);
-  }
-
-
-  // Tone.Transport.schedule(function(time){
-  //   console.log(time);
-  // }, 0.1);
-
-}
-// Tone.Transport.schedule(noteArray[0].trigger, 0.1);
-// Tone.Transport.schedule(noteArray[1].trigger, 0.6);
-
-
-//-----------------------------
-// adding objects to part
-//-----------------------------
-
-
 
 //-----------------------------
 // low-tech visualization
