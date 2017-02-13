@@ -109,12 +109,12 @@ for (var i=0;i<noteArray.length;i++){
   options = {
     vibratoAmount:1,
     vibratoRate:5,
-    harmonicity:2,
+    harmonicity:4,
     voice0:{
-      volume:-10,
-      portamento:20,
+      volume:-30,
+      portamento:0,
       oscillator:{
-        type:"triangle"
+        type:"sine"
       },
       filterEnvelope:{
         attack:0.01,
@@ -130,10 +130,10 @@ for (var i=0;i<noteArray.length;i++){
       },
     },
   voice1:{
-    volume:-10,
+    volume:-30,
     portamento:0,
     oscillator:{
-      type:"sawtooth"
+      type:"sine"
     },
     filterEnvelope:{
       attack:0.01,
