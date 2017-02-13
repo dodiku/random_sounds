@@ -3,14 +3,6 @@ console.log('current limitations:\n- all notes are being played using the same i
 
 var playState = false;
 
-
-// Tone.Transport.schedule(triggerNote, 0.6);
-
-// Tone.Transport.schedule(triggerNote(1, 0.6));
-// Tone.Transport.schedule(triggerSynth, 0)
-// this.trigger
-
-
 $("body").click(function() {
   if (playState === false) {
     play();
@@ -21,7 +13,7 @@ $("body").click(function() {
 
 function play(){
   playState = true;
-  $("#click").html("click anywhere to stop");
+  $("#click").html("i told you. it is now flickering really bad</br>click anywhere to stop");
   console.log('playing...');
   Tone.Transport.schedule(function(time){
   	noteArray[0].trigger(time);
@@ -35,6 +27,7 @@ function play(){
   // Tone.Transport.loop = true;
 
   Tone.Transport.start('+0.1');
+  setTimeout(backColorSignal, 100);
   // triggerNote(0, 0.1);
   // triggerNote(1, 0.6);
   // part.start(0);
@@ -44,11 +37,12 @@ function play(){
   // syntha.triggerAttackRelease(firstNote.frequency, firstNote.duration/1000);
   // synthb.triggerAttackRelease(secondNote.frequency, secondNote.duration/1000, 1);
 
+
 }
 
 function stop(){
   playState = false;
-  $("#click").html("click anywhere to play");
+  $("#click").html("it is probably still flicker really bad, but it will stop eventually</br>click anywhere to keep it going");
   console.log('stopped!');
   // syntha.triggerRelease();
   // synthb.triggerRelease();
@@ -110,19 +104,19 @@ function noteObject(index, color, frequency, amplitude, duration, loops, connect
 
 // starting notes
 // noteArray.push(new noteObject(0, '7D82B8', 'c3', 1, 1.520, 0, ([2,1.520,20,20,0.9],[3,1.520,20,20,0.1]))); // real
-noteArray.push(new noteObject(0, '7D82B8', 'c3', 1, 1.520, 0, [2,1.520,0.020,0.020,0.9])); // debug
-noteArray.push(new noteObject(1, 'B7E3CC', 'e2', 1, 6.880, 0, null));
+noteArray.push(new noteObject(0, '7D82B8', 'c3', 1, 1.520*5, 0, [2,1.520*5,0.020*5,0.020*5,0.9])); // debug
+noteArray.push(new noteObject(1, 'B7E3CC', 'e2', 1, 6.880*5, 0, null));
 
 // the rest of the notes
-noteArray.push(new noteObject(2, 'C4FFB2', 'b2', 1, 1.680, 0, [3,1.520,0.40,0.80,1])); // real
+noteArray.push(new noteObject(2, 'C4FFB2', 'b2', 1, 1.680*5, 0, [3,1.520*5,0.40,0.80,1])); // real
 // noteArray.push(new noteObject(2, 'C4FFB2', 'b2', 1, 1.680, 0, null)); // debug
-noteArray.push(new noteObject(3, 'D6F7A3', 'c#2', 1, 3.640, 0, [4,0,0.8,1,1])); // real
+noteArray.push(new noteObject(3, 'D6F7A3', 'c#2', 1, 3.640*5, 0, [4,0,0.8,1,1])); // real
 // noteArray.push(new noteObject(3, 'D6F7A3', 'c#2', 1, 3.640, 0, null)); // debug
-noteArray.push(new noteObject(4, 'ADD66D', 'b2', 1, 0.650, 0, [5,0.650,0.2,0.2,1])); // real
-noteArray.push(new noteObject(5, 'A4FF7B', 'a2', 1, 1.800, 0, [6,0,0,0,1])); // real
+noteArray.push(new noteObject(4, 'ADD66D', 'b2', 1, 0.650*10, 0, [5,0.650*10,0.2,0.2,1])); // real
+noteArray.push(new noteObject(5, 'A4FF7B', 'a2', 1, 1.800*5, 0, [6,0,0,0,1])); // real
 // noteArray.push(new noteObject(5, 'A4FF7B', 'a3', 1, 1.800, 0, null));
-// noteArray.push(new noteObject(6, '7BFFD2', 'f#2', 0.2, 1.800, 0, [0, 1.800, 1, 2, 1]));
-noteArray.push(new noteObject(6, '7BFFD2', 'f#2', 0.2, 1.800, 0, null));
+noteArray.push(new noteObject(6, '7BFFD2', 'f#2', 0.2, 1.800*5, 0, [0, 1.800*5, 1, 2, 1]));
+// noteArray.push(new noteObject(6, '7BFFD2', 'f#2', 0.2, 1.800*5, 0, null));
 
 
 
@@ -147,7 +141,50 @@ noteArray.push(new noteObject(6, '7BFFD2', 'f#2', 0.2, 1.800, 0, null));
 var synthArray = [];
 
 for (var i=0;i<noteArray.length;i++){
-  synthArray.push(new Tone.Synth().toMaster());
+  options = {
+    vibratoAmount:1,
+    vibratoRate:5,
+    harmonicity:2,
+    voice0:{
+      volume:-10,
+      portamento:20,
+      oscillator:{
+        type:"triangle"
+      },
+      filterEnvelope:{
+        attack:0.01,
+        decay:0,
+        sustain:0.5,
+        release:1,
+      },
+      envelope:{
+        attack:0.1,
+        decay:0,
+        sustain:0.5,
+        release:1,
+      },
+    },
+  voice1:{
+    volume:-10,
+    portamento:0,
+    oscillator:{
+      type:"sawtooth"
+    },
+    filterEnvelope:{
+      attack:0.01,
+      decay:0,
+      sustain:1,
+      release:0.5,
+    },
+    envelope:{
+      attack:0.01,
+      decay:0,
+      sustain:0.5,
+      release:1,
+    }
+  }
+  };
+  synthArray.push(new Tone.DuoSynth(options).toMaster());
 }
 
 //-----------------------------
@@ -241,5 +278,25 @@ function triggerNote(noteIndex, time){
 
 
 //-----------------------------
-// playing the part
+// low-tech visualization
 //-----------------------------
+b = new Tone.Meter ("signal");
+synthArray[1].connect(b);
+// synthArray[2].connect(b);
+
+function backColorSignal(){
+  if (b.value === 0){
+    setTimeout(backColorBlue, 100);
+  } else {
+    var color = "rgba(0, 0, 255," + b.value + ")";
+    $("html").css("background-color", color);
+    setTimeout(backColorSignal, 100);
+    // console.log('b.value: ' + b.value + " " + color);
+  }
+}
+
+function backColorBlue(){
+  var color = "rgba(0, 0, 255,1)";
+  $("html").css("background-color", color);
+  setTimeout(backColorSignal, 100);
+}
