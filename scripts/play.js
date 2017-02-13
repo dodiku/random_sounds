@@ -30,6 +30,10 @@ function play(){
   Tone.Transport.schedule(function(time){
   	noteArray[1].trigger(time);
   }, 0.4);
+
+  // Tone.Transport.loopEnd = '1m';
+  // Tone.Transport.loop = true;
+
   Tone.Transport.start('+0.1');
   // triggerNote(0, 0.1);
   // triggerNote(1, 0.6);
@@ -76,17 +80,24 @@ function noteObject(index, color, frequency, amplitude, duration, loops, connect
   this.loops = loops;
   this.connected_notes = connected_notes_arry;
   this.trigger = function(time, index=this.index, frequency=this.frequency, duration=this.duration, connected=this.connected_notes){
-    console.log('time: ' + time);
-    console.log('index: ' + index);
+    // console.log('time: ' + time);
+    // console.log('index: ' + index);
+    console.log('');
+    console.log('------------');
+    console.log('it is ' + Tone.Transport.seconds);
+    console.log('playing: ' + index);
     console.log('frequency: ' + frequency);
     console.log('duration: ' + duration);
+
   	synthArray[index].triggerAttackRelease(frequency, duration, time);
 
     if (connected !== null) {
       var nextIndex = connected[0];
-      var nextTime = Tone.Transport.seconds + connected[1] + parseFloat((Math.random() * (connected[2] - connected[3]) + connected[3]).toFixed(4));
-      console.log(Tone.Transport.seconds);
-      console.log(nextTime);
+      var nextTime = 0.01 + Tone.Transport.seconds + connected[1] + parseFloat((Math.random() * (connected[2] - connected[3]) + connected[3]).toFixed(4));
+
+      // console.log(nextTime);
+      console.log('generated: ' + nextIndex);
+      console.log('at: ' + nextTime);
       Tone.Transport.schedule(function(time){
         noteArray[nextIndex].trigger(time);
       }, nextTime);
@@ -110,7 +121,8 @@ noteArray.push(new noteObject(3, 'D6F7A3', 'c#2', 1, 3.640, 0, [4,0,0.8,1,1])); 
 noteArray.push(new noteObject(4, 'ADD66D', 'b2', 1, 0.650, 0, [5,0.650,0.2,0.2,1])); // real
 noteArray.push(new noteObject(5, 'A4FF7B', 'a2', 1, 1.800, 0, [6,0,0,0,1])); // real
 // noteArray.push(new noteObject(5, 'A4FF7B', 'a3', 1, 1.800, 0, null));
-noteArray.push(new noteObject(6, '7BFFD2', 'f#3', 0.5, 1.800, 0, null));
+// noteArray.push(new noteObject(6, '7BFFD2', 'f#2', 0.2, 1.800, 0, [0, 1.800, 1, 2, 1]));
+noteArray.push(new noteObject(6, '7BFFD2', 'f#2', 0.2, 1.800, 0, null));
 
 
 
