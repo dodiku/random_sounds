@@ -1,0 +1,49 @@
+html{
+/*background-color: blue;*/
+background-color: rgba(0, 0, 255,1);
+}
+
+.stam {
+  margin: auto;
+  margin-top: 32px;
+  width: 200px;
+  /*border: 3px red solid;*/
+  padding: 10px;
+  color: white;
+  font-family: monospace;;
+  font-size: 1.1em;
+  text-align: center;
+  text-decoration: overline;
+  /*text-decoration: underline;*/
+}
+
+.another {
+  margin: auto;
+  margin-top: 32px;
+  width: 400px;
+  /*border: 3px red solid;*/
+  padding: 10px;
+  color: LightSteelBlue;
+  font-family: monospace;
+  font-size: 1.1em;
+  text-align: center;
+  /*text-decoration: overline;*/
+  /*text-decoration: underline;*/
+}
+.another a:link {
+  color: white;
+}
+
+.another a:visited {
+  color: white;
+}
+
+
+#click{
+  color: DodgerBlue;
+  font-family: monospace;
+  font-size: 1.1em;
+  height: 200px;
+  padding-top: 25%;
+  text-align: center;
+}
