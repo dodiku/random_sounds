@@ -103,3 +103,8 @@ $(document).keydown(function(keyPressed) {
       break;
   }
 });
+
+var colors = ['#FAF2A1', '#759AAB', '#453F78', '#3F2E56', '#401F3E', '#95AFBA', '#E2F89C', '#A63A50', '#2CEAA3'];
+$(".key").each(function(){
+  $(this).css('background-color', colors[Math.floor(Math.random()*10)]);
+});

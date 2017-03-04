@@ -1,6 +1,11 @@
 html{
-/*background-color: blue;*/
-background-color:pink;
+  /*background-color: blue;*/
+  background-color:pink;
+  box-sizing: border-box;
+}
+
+body{
+  margin: 0;
 }
 
 .stam {
@@ -10,21 +15,7 @@ background-color:pink;
   /*border: 3px red solid;*/
   padding: 10px;
   color: white;
-  font-family: monospace;;
-  font-size: 1.1em;
-  text-align: center;
-  text-decoration: overline;
-  /*text-decoration: underline;*/
-}
-
-.stam {
-  margin: auto;
-  margin-top: 32px;
-  width: 200px;
-  /*border: 3px red solid;*/
-  padding: 10px;
-  color: white;
-  font-family: monospace;;
+  font-family: monospace;
   font-size: 1.1em;
   text-align: center;
   text-decoration: overline;
@@ -38,4 +29,19 @@ background-color:pink;
   height: 200px;
   padding-top: 25%;
   text-align: center;
+}
+
+.row{
+  margin: auto;
+  background-color: red;
+  width: 100%;
+  height: 33.3333333vh;
+}
+
+.key{
+  margin: auto;
+  background-color: green;
+  width: 33.333%;
+  display: inline-block;
+  height: 33.3333333vh;
 }
